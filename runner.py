@@ -2,10 +2,15 @@ import RSA
 
 cipher = RSA.RSA()  # creating the cipher
 
-username = 'username'
-password = 'password'
 
-credentials = [username, password]  # creating a list to pass to the cipher to encrypt
+def store_credentials (username, password, host):
+    credentials = [username, password]  # creating a list to pass to the cipher to encrypt
+    cipher.encrypt_and_store(credentials, 'utdallas.edu')  # encrypting and storing the credentials for host
 
-cipher.encrypt_and_store(credentials, 'utdallas.edu')  # encrypting and storing the credentials for host
-print(cipher.retrieve_and_decrypt('utdallas.edu'))  # retrieving and decrypting the credentials for host
+
+def get_credentials (host):
+    return cipher.retrieve_and_decrypt('utdallas.edu')  # retrieving and decrypting the credentials for host
+
+
+store_credentials('username', 'password', 'utdallas.edu')
+print(get_credentials('utdallas.edu'))
