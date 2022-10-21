@@ -18,7 +18,7 @@ class RSA:
             self.init_keys()
 
         encrypted_credentials = self.encrypt(credentials)
-        f = open(host, 'wb')
+        f = open('./Hosts/' + host, 'wb')
         f.write(encrypted_credentials)
 
     def retrieve_and_decrypt(self, host):
@@ -26,7 +26,7 @@ class RSA:
             self.init_keys()
         d = {}
 
-        f = open(host, 'rb')  # opening file that contains the credentials of the user on this host/service.
+        f = open('./Hosts/' + host, 'rb')  # opening file that contains the credentials of the user on this host/service.
         encrypted = f.read()  # reading the encrypted bytes
         decrypted_credentials = rsa.decrypt(encrypted, self.private_key).decode()  # decrypting using RSA private key
         (username, password) = decrypted_credentials.split(',')  # separating the username and password
