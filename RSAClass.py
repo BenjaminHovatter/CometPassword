@@ -1,6 +1,6 @@
 import rsa
 import os
-
+import datetime
 
 class RSAClass:
 
@@ -18,16 +18,33 @@ class RSAClass:
             self.init_keys()
 
         encrypted_credentials = self.encrypt(credentials)
-        f = open('./Hosts/' + host, 'wb')
-        f.write(encrypted_credentials)
+        time  = bytes(str(datetime.datetime.now()), 'utf-8')
+        
+        with open('./Hosts/' + host, 'rb') as temp:
+            content = temp.read()
+            temp.close()
+        with open('./Hosts/' + host, 'wb+')  as f:
+            f.seek(0,0)
+            f.write(encrypted_credentials + b'\n\n' + time + b'\n\n\n')
+            f.write(content)
+            f.close()
+        #f = open('./Hosts/' + host, 'ab')
+        #f.write(encrypted_credentials + b'\n\n\n\n')
 
     def retrieve_and_decrypt(self, host):
         if (self.private_key == -1) or (self.public_key == -1):
             self.init_keys()
         d = {}
-
-        f = open('./Hosts/' + host, 'rb')  # opening file that contains the credentials of the user on this host/service.
-        encrypted = f.read()  # reading the encrypted bytes
+        #f = open('./Hosts/' + host, 'rb')  # opening file that contains the credentials of the user on this host/service.
+        #encrypted = f.read()  # reading the encrypted bytes
+        
+        with open('./Hosts/' + host, 'rb') as f:
+            t = f.read()
+            j = t.split(b'\n\n')
+        encrypted = j[0]
+        print(t)
+        print(encrypted)
+        
         decrypted_credentials = rsa.decrypt(encrypted, self.private_key).decode()  # decrypting using RSA private key
         (username, password) = decrypted_credentials.split(',')  # separating the username and password
         d[username] = password
