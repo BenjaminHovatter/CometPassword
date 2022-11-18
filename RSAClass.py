@@ -2,7 +2,7 @@ import rsa
 import os
 
 
-class RSA:
+class RSAClass:
 
     def __init__(self):
         self.private_key = -1
