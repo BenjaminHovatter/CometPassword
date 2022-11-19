@@ -60,7 +60,7 @@ store_submit_button.place(x = 40, y = 150)
 ######## GET #############
 printText = tk.StringVar()
 printInfo = Entry(tab1, width=50, textvariable=printText, name="info", state=DISABLED)
-printInfo.place(x=40, y= 260)
+printInfo.place(x=90, y= 240)
 
 
 def output():
