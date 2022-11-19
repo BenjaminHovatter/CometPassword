@@ -1,7 +1,7 @@
-import RSA
+import RSAClass
 import sys
 
-cipher = RSA.RSA()  # creating the cipher
+cipher = RSAClass.RSAClass()  # creating the cipher
 
 
 def store_credentials (username, password, host):
