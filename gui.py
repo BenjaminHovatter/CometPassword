@@ -1,3 +1,5 @@
+import secrets
+import string
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -32,9 +34,7 @@ Label(tab1,
                                            y = 80) 
    
 # the label for user_password 
-Label(tab1,
-                      text = "Password").place(x = 40,
-                                               y = 100) 
+Label(tab1, text="Password").place(x=40, y=100)
 Label(tab1, text="Domain").place(x=40, y=120)
 
 user_text = Entry(tab1,name="user_text",  width=20)
@@ -47,20 +47,19 @@ host_text = Entry(tab1,name="host_text",  width=20)
 host_text.place(x=120, y=120)
 
 
-
-
 store_submit_button = Button(tab1,
-                       text = "Submit",
-                        command=lambda: 
-                        runner.store_credentials(user_text.get(), pass_text.get(), host_text.get()))
-store_submit_button.place(x = 40, y = 150)
+                             text = "Submit",
+                             command=lambda:
+                             runner.store_credentials(user_text.get(), pass_text.get(), host_text.get()))
+
+store_submit_button.place(x=40, y=150)
    
 
 
 ######## GET #############
 printText = tk.StringVar()
 printInfo = Entry(tab1, width=50, textvariable=printText, name="info", state=DISABLED)
-printInfo.place(x=90, y= 240)
+printInfo.place(x=90, y=240)
 
 
 def output():
@@ -89,34 +88,31 @@ specialCharFlag = False
 hostname_var=StringVar()
 #passw_var=tk.StringVar()
 #Entry(root,textvariable = name_var, font=('calibre',10,'normal'))
-hostName = Entry(tab2,textvariable = hostname_var, font=('calibre',10,'normal'))
-hostName.place(x = 40, y = 100)
-genUsernameBox = Text(tab2, height = 5, width =  52)
-genUsernameBox.place(x = 40, y = 120)
+
+Label(tab2, text="Host Name :").place(x=40, y=100)
+hostName = Entry(tab2, name="host_name", font=('calibre', 10, 'normal'))
+hostName.place(x=120, y=100)
+
+Label(tab2, text="Username  :").place(x=40, y=120)
+username_var = ""
+userName = Entry(tab2, name = "user_text", font=('calibre', 10, 'normal'))
+userName.place(x=120, y=120)
 
 c1 = Checkbutton(tab2, text="Special Characters",variable=specialCharFlag, onvalue=1, offvalue=0)
 
-generatedPassword = ""
-def generatePassword():
-    genHostSite = hostName.get("1.0", END)  # For line 1, col 0 to end.
 
-
-    if(specialCharFlag == True):
-        generatedPassword = (''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation + string.digits) for i in range(7)))
+def generate_password(username, hostname):
+    if specialCharFlag:
+        generated_password = (''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.punctuation + string.digits) for i in range(7)))
     else:
-        generatedPassword = (''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(7)))
+        generated_password = (''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase + string.digits) for i in range(7)))
 
-    
-    if(genHostSite != ""):
-
-#        print(''.join(secrets.choice(string.ascii_uppercase + string.ascii_lowercase) for i in range(7)))
-
-        runner.store_credentials(genUser_Name, generatedPassword, genHostSite)
-
-        genPassLabel = Label(tab2, text = ("Password: " + generatedPassword), font=("Arial", 25)).place(x = 40, y = 160) 
+    if len(hostname) > 0:
+        runner.store_credentials(username, generated_password, hostname)
+        Label(tab2, text=("Password: " + generated_password), font=("Arial", 25)).place(x=40, y=160)
 
 
-generatePasswordButton = Button(tab2, text = "Generate", command=generatePassword)
-generatePasswordButton.place(x = 50, y = 80)
+generatePasswordButton = Button(tab2, text="Generate", command=lambda: generate_password(str(userName.get()), str(hostName.get())))
+generatePasswordButton.place(x=40, y=140)
 
 root.mainloop()
