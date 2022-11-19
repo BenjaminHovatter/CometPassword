@@ -9,7 +9,7 @@ class Root(Tk):
     def __init__(self):
         super(Root,self).__init__()
  
-        self.title("Python Tkinter")
+        self.title("CometPassword")
         self.minsize(500,400)
  
 
@@ -23,15 +23,13 @@ tabControl = ttk.Notebook(root)
 tab1 = ttk.Frame(tabControl)
 tab2 = ttk.Frame(tabControl)
   
-tabControl.add(tab1, text ='Tab 1')
-tabControl.add(tab2, text ='Tab 2')
-tabControl.pack(expand = 1, fill ="both")
+tabControl.add(tab1, text='Manage')
+tabControl.add(tab2, text='Generate')
+tabControl.pack(expand=1, fill="both")
 
-tk.Label(tab1, text = "Store Credentials", font=("Arial", 25)).place(x = 40, y = 30)
+tk.Label(tab1, text="Store Credentials", font=("Arial", 25)).place(x=40, y=30)
 # the label for user_name
-Label(tab1,
-                  text = "Username").place(x = 40,
-                                           y = 80) 
+Label(tab1, text="Username").place(x=40, y=80)
    
 # the label for user_password 
 Label(tab1, text="Password").place(x=40, y=100)
