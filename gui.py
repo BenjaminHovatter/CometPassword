@@ -36,12 +36,14 @@ Label(tab1,
                       text = "Password").place(x = 40,
                                                y = 100) 
 Label(tab1, text="Domain").place(x=40, y=120)
-                                               
-user_text = Text(tab1,name="user_text", height=1, width=20)
+
+user_text = Entry(tab1,name="user_text",  width=20)
+user_text.unbind('<Return>')
 user_text.place(x=120, y=80)
-pass_text =Text(tab1,name="pass_text", height=1, width=20)
+pass_text =Entry(tab1,name="pass_text", width=20)
+pass_text.unbind('<Return>')
 pass_text.place(x=120, y=100)
-host_text = Text(tab1,name="host_text", height=1, width=20)
+host_text = Entry(tab1,name="host_text",  width=20)
 host_text.place(x=120, y=120)
 
 
@@ -50,21 +52,35 @@ host_text.place(x=120, y=120)
 store_submit_button = Button(tab1,
                        text = "Submit",
                         command=lambda: 
-                        runner.store_credentials(user_text.get("1.0", END)[0:-1], pass_text.get("1.0", END)[0:-1], host_text.get("1.0", END)[0:-1]))
+                        runner.store_credentials(user_text.get(), pass_text.get(), host_text.get()))
 store_submit_button.place(x = 40, y = 150)
    
 
 
 ######## GET #############
+printText = tk.StringVar()
+printInfo = Entry(tab1, width=50, textvariable=printText, name="info", state=DISABLED)
+printInfo.place(x=40, y= 260)
+
+
+def output():
+    printText.set(runner.get_credentials(domain_text.get()))
+
+
 get_cred_label = Label(tab1, text = "Get Credentials", font=("Arial", 25))
 get_cred_label.place(x = 40, y = 180)
-# the label for user_name
+
 nameToGet = Label(tab1,
                   text = "Host")
 nameToGet.place(x = 40, y = 220)
 
-get_submit_button = Button(tab1, text = "Submit")
+domain_text = Entry(tab1,name="domain_text", width=20)
+domain_text.place(x=120, y= 220)
+
+get_submit_button = Button(tab1, text = "Submit", command=output)
 get_submit_button.place(x = 40, y = 240)
+
+
 
 specialCharFlag = False
 
@@ -79,7 +95,6 @@ genUsernameBox = Text(tab2, height = 5, width =  52)
 genUsernameBox.place(x = 40, y = 120)
 
 c1 = Checkbutton(tab2, text="Special Characters",variable=specialCharFlag, onvalue=1, offvalue=0)
-c1.pack()
 
 generatedPassword = ""
 def generatePassword():

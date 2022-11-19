@@ -39,19 +39,19 @@ class RSAClass:
         d = {}
         #f = open('./Hosts/' + host, 'rb')  # opening file that contains the credentials of the user on this host/service.
         #encrypted = f.read()  # reading the encrypted bytes
-        
-        with open('./Hosts/' + host, 'rb') as f:
-            t = f.read()
-            j = t.split(b'\n\n')
-        encrypted = j[0]
-        print(t)
-        print(encrypted)
-        
-        decrypted_credentials = rsa.decrypt(encrypted, self.private_key).decode()  # decrypting using RSA private key
-        (username, password) = decrypted_credentials.split(',')  # separating the username and password
-        d[username] = password
+        if Path('./Hosts/' + host).is_file():
+            with open('./Hosts/' + host, 'rb') as f:
+                t = f.read()
+                j = t.split(b'\n\n')
+            encrypted = j[0]
+            
+            decrypted_credentials = rsa.decrypt(encrypted, self.private_key).decode()  # decrypting using RSA private key
+            (username, password) = decrypted_credentials.split(',')  # separating the username and password
+            d[username] = password
 
-        return d
+            return d
+        else:
+            return "No Domain Found"
 
     def init_keys(self):
         # generating or retrieving already-generated keys
