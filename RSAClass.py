@@ -1,5 +1,6 @@
 import rsa
 import os
+from pathlib import Path
 import datetime
 
 class RSAClass:
@@ -17,12 +18,13 @@ class RSAClass:
         if (self.private_key == -1) or (self.public_key == -1):
             self.init_keys()
 
+        content = b""
         encrypted_credentials = self.encrypt(credentials)
         time  = bytes(str(datetime.datetime.now()), 'utf-8')
-        
-        with open('./Hosts/' + host, 'rb') as temp:
-            content = temp.read()
-            temp.close()
+        if Path('./Hosts/' + host).is_file():
+            with open('./Hosts/' + host, 'rb') as temp:
+                content = temp.read()
+                temp.close()
         with open('./Hosts/' + host, 'wb+')  as f:
             f.seek(0,0)
             f.write(encrypted_credentials + b'\n\n' + time + b'\n\n\n')
